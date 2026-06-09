@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap');
+  :root {
+    --navy:#0D1B2A;
+    --white:#FFFFFF;
+    --sky:#EAF3FF;
+    --panel:#F8FBFF;
+    --text:#0F2A49;
+    --muted:#4B6B8C;
+    --blue:#1E5CAA;
+    --blue-dark:#113970;
+    --green:#1F8E52;
+    --orange:#E67D24;
+    --red:#D62E3D;
+    --border:#D6E6F5;
+    --shadow:0 18px 30px rgba(12,36,67,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:210mm;min-height:297mm;background:var(--navy);font-family:'Barlow',sans-serif;color:var(--text);font-size:10.5px;line-height:1.35;}
+  body{padding:8px;}
+  .poster{width:100%;min-height:100%;background:var(--sky);border:1px solid rgba(15,42,73,0.2);box-shadow:var(--shadow);padding:10px;position:relative;}
+  .top-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px;align-items:start;}
+  .hero-panel{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px;}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--green);letter-spacing:1px;margin-bottom:5px;}
+  .hero-panel h1{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;line-height:1.1;color:var(--blue-dark);margin-bottom:8px;}
+  .hero-panel p{font-size:10px;line-height:1.4;color:var(--muted);max-width:420px;margin-bottom:10px;}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .stat-card{background:#F6F9FF;border:1px solid var(--border);border-radius:14px;padding:8px;}
+  .stat-value{font-size:15px;font-weight:800;color:var(--blue-dark);margin-top:3px;}
+  .summary-panel{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;}
+  .summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .summary-card{background:linear-gradient(180deg,#F9FBFF,#FFFFFF);border:1px solid var(--border);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:5px;}
+  .summary-value{font-size:20px;font-weight:900;color:var(--blue-dark);}
+  .chart-card{min-height:280px;}
+  .callout-card{background:#F1F6FF;border:1px solid rgba(30,92,170,0.16);}
+  .trend-list{display:grid;gap:10px;}
+  .trend-item{display:grid;gap:4px;}
+  .trend-label{font-size:9px;font-weight:700;color:var(--blue-dark);}
+  .trend-bar{height:10px;border-radius:999px;background:rgba(15,42,73,0.08);overflow:hidden;}
+  .trend-fill{height:100%;border-radius:999px;}
+  .bar-green{background:var(--green);}
+  .bar-amber{background:var(--orange);}
+  .bar-red{background:var(--red);}
+  .trend-value{font-size:9px;font-weight:700;color:var(--muted);}
+  .insight-list{list-style:none;display:grid;gap:8px;padding:0;margin:0;}
+  .insight-list li{font-size:9px;color:var(--text);line-height:1.4;}
+  .insight-list strong{color:var(--blue-dark);}
+  .card-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue-dark);margin-bottom:14px;}
+  .data-table th,.data-table td{padding:6px 8px;border:1px solid var(--border);}
+  .data-table th{background:#E5EFFB;color:var(--blue-dark);font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;font-size:8px;}
+  .data-table td{color:var(--text);vertical-align:middle;font-size:9px;}
+  .status-pill{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:999px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap;}
+  .pill-green{background:rgba(31,142,82,0.12);color:var(--green);border:1px solid rgba(31,142,82,0.2);}
+  .pill-amber{background:rgba(230,125,36,0.12);color:var(--orange);border:1px solid rgba(230,125,36,0.2);}
+  .pill-red{background:rgba(214,46,61,0.12);color:var(--red);border:1px solid rgba(214,46,61,0.2);}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .tag{background:#FFFFFF;border:1px solid rgba(30,92,170,0.12);border-radius:999px;padding:4px 8px;font-size:8px;color:var(--blue-dark);font-weight:700;text-transform:uppercase;}
+  .circle-graphic{position:relative;width:175px;height:175px;border-radius:50%;background:conic-gradient(var(--green) 0 34%, var(--blue) 34% 68%, #2D8C61 68% 100%);display:flex;align-items:center;justify-content:center;}
+  .circle-graphic::before{content:'';position:absolute;inset:14px;border-radius:50%;background:var(--white);}
+  .circle-center{position:relative;font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:var(--blue-dark);}
+  .circle-label{position:absolute;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:0.8px;}
+  .label-health{top:18px;left:50%;transform:translateX(-50%);}
+  .label-safety{top:50%;right:16px;transform:translateY(-50%);}
+  .label-env{bottom:18px;left:50%;transform:translateX(-50%);}
+  .goal-panel{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px;}
+  .goal-icon{width:46px;height:46px;border-radius:12px;background:rgba(30,92,170,0.12);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .goal-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue-dark);}
+  .goal-text{font-size:16px;font-weight:800;line-height:1.1;color:var(--text);}
+  .worker-row{display:flex;justify-content:space-between;gap:10px;}
+  .worker{flex:1;background:linear-gradient(180deg,#FFF 0%,#EAF3FF 100%);border:1px solid var(--border);border-radius:14px;padding:12px;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .worker::before{content:'';width:42px;height:24px;border-radius:12px 12px 0 0;background:var(--blue);}
+  .worker::after{content:'';width:14px;height:14px;border-radius:50%;background:var(--white);position:absolute;top:18px;}
+  .worker-center::before{background:var(--orange);}
+  .worker-center::after{background:var(--white);}
+  .worker-left::before{background:var(--green);}
+  .worker-right::before{background:#2D8C61;}
+  .worker-caption{font-size:8px;color:var(--muted);letter-spacing:0.7px;text-transform:uppercase;text-align:center;}
+  .section-row{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin-top:14px;}
+  .card{background:var(--white);border-radius:14px;border:1px solid var(--border);padding:16px;box-shadow:var(--shadow);}
+  .card-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue-dark);margin-bottom:14px;}
+  .data-table{width:100%;border-collapse:collapse;font-size:9px;margin-top:6px;}
+  .data-table th,.data-table td{padding:5px 7px;border:1px solid var(--border);}
+  .data-table th{background:#E5EFFB;color:var(--blue-dark);font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;font-size:8px;}
+  .data-table td{color:var(--text);vertical-align:middle;}
+  .data-table td.left{text-align:left;}
+  .status-pill{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:999px;font-size:8px;font-weight:700;text-transform:uppercase;}
+  .pill-green{background:rgba(31,142,82,0.12);color:var(--green);border:1px solid rgba(31,142,82,0.2);}
+  .pill-amber{background:rgba(230,125,36,0.12);color:var(--orange);border:1px solid rgba(230,125,36,0.2);}
+  .pill-red{background:rgba(214,46,61,0.12);color:var(--red);border:1px solid rgba(214,46,61,0.2);}
+  .val-green{color:var(--green);font-weight:700;}
+  .val-amber{color:var(--orange);font-weight:700;}
+  .val-red{color:var(--red);font-weight:700;}
+  .val-bold{font-weight:800;color:var(--text);}
+  .val-zero{color:var(--muted);}
+  .dual-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .sub-card{background:#F6F9FF;border-radius:12px;padding:12px;}
+  .sub-card h2{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;margin-bottom:8px;color:var(--blue-dark);}
+  .sub-card p{font-size:9px;color:var(--muted);line-height:1.4;margin-bottom:8px;}
+  .bullet-list{list-style:none;display:grid;gap:8px;}
+  .bullet-list li{font-size:9px;line-height:1.5;color:var(--text);display:flex;gap:10px;align-items:flex-start;}
+  .bullet-list li::before{content:'•';color:var(--blue);margin-top:2px;}
+  .box-note{background:var(--white);border:1px solid rgba(30,92,170,0.16);border-radius:10px;padding:10px;font-size:8.5px;color:var(--muted);line-height:1.5;}
+  .box-note strong{display:block;color:var(--blue-dark);margin-bottom:3px;}
+  .formula-list{display:grid;gap:12px;}
+  .formula-item{display:grid;grid-template-columns:28px 1fr;gap:12px;}
+  .formula-number{width:28px;height:28px;border-radius:50%;background:var(--blue);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;}
+  .formula-copy{font-size:9px;line-height:1.5;color:var(--text);}
+  .formula-copy strong{color:var(--blue-dark);}
+  .formula-copy span{display:block;color:var(--muted);font-size:8.5px;margin-top:2px;}
+  .detail-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .detail-card{background:var(--white);border-radius:14px;border:1px solid var(--border);padding:14px;}
+  .detail-card-small{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .importance-list{list-style:none;display:grid;gap:7px;}
+  .importance-list li{font-size:9px;color:var(--text);display:flex;gap:8px;align-items:flex-start;}
+  .importance-list li::before{content:'✓';color:var(--green);font-weight:700;margin-top:1px;}
+  .icon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+  .icon-box{background:#EFF7FF;border:1px solid rgba(30,92,170,0.14);border-radius:14px;padding:8px;display:flex;align-items:center;gap:8px;}
+  .icon-dot{width:24px;height:24px;border-radius:10px;background:var(--blue);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;}
+  .icon-box span{font-size:8.5px;color:var(--text);line-height:1.4;}
+  .contact-panel{background:#F6F9FF;border-radius:14px;border:1px solid var(--border);padding:12px;margin-top:10px;}
+  .contact-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;color:var(--blue-dark);margin-bottom:4px;}
+  .contact-role{font-size:9px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
+  .contact-details{display:grid;gap:6px;font-size:8.8px;color:var(--muted);}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .tag{background:#FFFFFF;border:1px solid rgba(30,92,170,0.12);border-radius:999px;padding:4px 8px;font-size:8px;color:var(--blue-dark);font-weight:700;text-transform:uppercase;}
+  .definition-card{background:var(--white);border:1px solid rgba(15,42,73,0.08);border-radius:14px;padding:18px;position:relative;}
+  .definition-card h3{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;color:var(--blue-dark);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.9px;}
+  .definition-card p{font-size:9px;line-height:1.6;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="top-grid" style="grid-template-columns:1.9fr 1.1fr;">
+    <div class="hero-panel">
+      <div class="eyebrow">HSE KPI</div>
+      <h1>Airyolk NIG Ltd — Safety & Environment Performance</h1>
+      <p>Executive dashboard presented as a single image for a quick, print-ready HSE summary. This layout emphasizes the highest-priority KPIs, trend insights, and target alignment.</p>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">2025 Status</div>
+          <div class="stat-value">Healthy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Priority</div>
+          <div class="stat-value">Zero Harm</div>
+        </div>
+      </div>
+      <div class="summary-panel">
+        <div class="summary-title">Top performance highlights</div>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-label">Lost Time Injuries</div>
+            <div class="summary-value">0</div>
+            <div class="summary-note">Meeting the zero-injury goal</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">TRC</div>
+            <div class="summary-value">1</div>
+            <div class="summary-note">Within target range</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Audit compliance</div>
+            <div class="summary-value">81%</div>
+            <div class="summary-note">Consistent year-on-year</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Toolbox meetings</div>
+            <div class="summary-value">85</div>
+            <div class="summary-note">Above planned target</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="visual-panel">
+      <div class="circle-graphic">
+        <div class="circle-center">HSE</div>
+        <div class="circle-label label-health">Health</div>
+        <div class="circle-label label-safety">Safety</div>
+        <div class="circle-label label-env">Environment</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section-row" style="margin-top:18px; margin-bottom:22px; page-break-after:always; break-after:page;">
+    <div class="card">
+      <div class="card-title">AIRYOLK NIG LTD KPI Dashboard (2023–2025)</div>
+      <div class="dual-columns">
+        <div class="sub-card">
+          <h2>Top KPIs — Full Comparison</h2>
+          <table class="data-table">
+            <thead>
+              <tr><th class="left">KPI</th><th>2023</th><th>2024</th><th>2025</th><th>Target</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="left">LTI</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>≤1</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">TRC</td><td class="val-bold">1</td><td class="val-bold">1</td><td class="val-bold">1</td><td>1–2</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">TROI</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>2–4</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">LTIF</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>≤1</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">MTC</td><td class="val-green">6</td><td class="val-amber">9</td><td class="val-amber">11</td><td>20–26</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">TRCF</td><td class="val-bold">1</td><td class="val-zero">0</td><td class="val-zero">0</td><td>1–2</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">Fires</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>≤1</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">Env. Incidents</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>≤1</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">Fatality (FAR)</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>0</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">Sched. Audit %</td><td class="val-bold">81%</td><td class="val-bold">81%</td><td class="val-bold">81%</td><td>≥30</td><td><span class="status-pill pill-green">ABOVE</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sub-card">
+          <h2>Supporting KPIs — Full Comparison</h2>
+          <table class="data-table">
+            <thead>
+              <tr><th class="left">KPI</th><th>2023</th><th>2024</th><th>2025</th><th>Target</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="left">HSE Walkabouts/yr</td><td class="val-bold">83</td><td class="val-bold">85</td><td class="val-green">87</td><td>85–90</td><td><span class="status-pill pill-green">ABOVE</span></td></tr>
+              <tr><td class="left">Overdue Omnisafe</td><td class="val-bold">2</td><td class="val-bold">2</td><td class="val-bold">0</td><td>&lt;5</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">Near Misses</td><td class="val-zero">0</td><td class="val-bold">1</td><td class="val-bold">1</td><td>&lt;5</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">First Aid Cases</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-bold">6</td><td>&lt;3</td><td><span class="status-pill pill-amber">BELOW</span></td></tr>
+              <tr><td class="left">Medical Treat. Cases</td><td class="val-bold">1</td><td class="val-bold">1</td><td class="val-bold">1</td><td>&gt;0</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">HSE Campaigns</td><td class="val-bold">4</td><td class="val-bold">4</td><td class="val-bold">2</td><td>4–5</td><td><span class="status-pill pill-amber">BELOW</span></td></tr>
+              <tr><td class="left">Emergency Exercises</td><td class="val-bold">6</td><td class="val-bold">3</td><td class="val-bold">3</td><td>3–4</td><td><span class="status-pill pill-green">ON</span></td></tr>
+              <tr><td class="left">HRA</td><td class="val-bold">2</td><td class="val-bold">1</td><td class="val-bold">0</td><td>2–3</td><td><span class="status-pill pill-amber">BELOW</span></td></tr>
+              <tr><td class="left">Mgmt Inspection/Audit</td><td class="val-bold">4</td><td class="val-bold">4</td><td class="val-bold">4</td><td>≥5</td><td><span class="status-pill pill-amber">THRESH</span></td></tr>
+              <tr><td class="left">Safety Mgmt Meetings</td><td class="val-bold">4</td><td class="val-bold">4</td><td class="val-bold">4</td><td>≥5</td><td><span class="status-pill pill-amber">THRESH</span></td></tr>
+              <tr><td class="left">Toolbox Meetings</td><td class="val-green">65</td><td class="val-green">90</td><td class="val-green">85</td><td>60–70</td><td><span class="status-pill pill-green">ABOVE</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-row" style="margin-top:18px;">
+    <div class="card">
+      <div class="card-title">YTD Performance (Cumulative)</div>
+      <table class="data-table">
+        <thead>
+          <tr><th class="left">KPI</th><th>YTD '23</th><th>YTD '24</th><th>YTD '25</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">TRC (YTD)</td><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td class="left">MTC (YTD)</td><td>6</td><td class="val-amber">9</td><td class="val-amber">11</td></tr>
+          <tr><td class="left">TRCF (YTD)</td><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td class="left">HSE Walkabouts YTD</td><td class="val-green">340</td><td class="val-green">340</td><td class="val-green">340</td></tr>
+          <tr><td class="left">Overdue Omnisafe YTD</td><td>4</td><td>4</td><td>4</td></tr>
+          <tr><td class="left">Near Misses YTD</td><td>2</td><td>2</td><td>2</td></tr>
+          <tr><td class="left">First Aid YTD</td><td>4</td><td>12</td><td class="val-amber">22</td></tr>
+          <tr><td class="left">Toolbox Meetings YTD</td><td class="val-green">206</td><td class="val-green">296</td><td class="val-green">421</td></tr>
+          <tr><td class="left">Audit % YTD</td><td>81%</td><td>81%</td><td>81%</td></tr>
+          <tr><td class="left">Campaigns YTD</td><td>6</td><td>6</td><td>6</td></tr>
+          <tr><td class="left">Emergency Drills YTD</td><td>18</td><td>18</td><td>18</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Year-on-Year Summary</div>
+      <table class="data-table">
+        <thead>
+          <tr><th class="left">KPI</th><th>2023</th><th>2024</th><th>2025</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="left">LTI & LTIF</td><td class="val-zero">0</td><td class="val-zero">0</td><td class="val-zero">0</td><td>Zero across all years</td></tr>
+          <tr><td class="left">TRC</td><td class="val-amber">1</td><td class="val-amber">1</td><td class="val-amber">1</td><td>On target</td></tr>
+          <tr><td class="left">MTC</td><td class="val-amber">6</td><td class="val-amber">9</td><td class="val-red">11</td><td>Trending upward</td></tr>
+          <tr><td class="left">Fatalities (FAR)</td><td class="val-green">0</td><td class="val-green">0</td><td class="val-green">0</td><td>Zero fatalities</td></tr>
+          <tr><td class="left">Fires &amp; Env. Incidents</td><td class="val-green">0</td><td class="val-green">0</td><td class="val-green">0</td><td>Zero incidents</td></tr>
+          <tr><td class="left">Scheduled Audit %</td><td class="val-bold">81%</td><td class="val-bold">81%</td><td class="val-bold">81%</td><td>Target met</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-row" style="margin-top:18px;grid-template-columns:2fr 1fr;">
+    <div class="card chart-card">
+      <div class="card-title">Trend & target insights</div>
+      <div class="trend-list">
+        <div class="trend-item">
+          <div class="trend-label">Toolbox Meetings vs Target</div>
+          <div class="trend-bar"><div class="trend-fill bar-green" style="width:88%"></div></div>
+          <div class="trend-value">85 completed / 70 target</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-label">HSE Walkabouts vs Target</div>
+          <div class="trend-bar"><div class="trend-fill bar-green" style="width:97%"></div></div>
+          <div class="trend-value">87 completed / 90 target</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-label">Audit Completion</div>
+          <div class="trend-bar"><div class="trend-fill bar-green" style="width:100%"></div></div>
+          <div class="trend-value">81% completion</div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-label">HSE Campaign Delivery</div>
+          <div class="trend-bar"><div class="trend-fill bar-amber" style="width:40%"></div></div>
+          <div class="trend-value">2 delivered / 5 planned</div>
+        </div>
+      </div>
+    </div>
+    <div class="card callout-card">
+      <div class="card-title">Key insights</div>
+      <ul class="insight-list">
+        <li><strong>Zero LTIs</strong> over three years indicates strong incident prevention.</li>
+        <li><strong>MTC trend</strong> is upward; focus on minor injury reduction actions.</li>
+        <li><strong>Audit performance</strong> is stable at 81%, supporting process control.</li>
+        <li><strong>Toolbox meetings</strong> are consistently above target, improving engagement.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="detail-row" style="margin-top:18px;grid-template-columns:1.45fr 0.8fr;">
+    <div class="detail-card">
+      <div class="card-title">Example for Wind / Solar Project HSE KPI</div>
+      <div class="icon-grid">
+        <div class="icon-box"><div class="icon-dot">✓</div><span>100% PPE Compliance</span></div>
+        <div class="icon-box"><div class="icon-dot">T</div><span>Daily Toolbox Talk</span></div>
+        <div class="icon-box"><div class="icon-dot">I</div><span>Weekly Safety Inspection</span></div>
+        <div class="icon-box"><div class="icon-dot">0</div><span>0 Fatality Target</span></div>
+        <div class="icon-box"><div class="icon-dot">N</div><span>Near Miss Reporting</span></div>
+        <div class="icon-box"><div class="icon-dot">E</div><span>Monthly Emergency Drill</span></div>
+        <div class="icon-box"><div class="icon-dot">P</div><span>100% Permit to Work Compliance</span></div>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="card-title">HSE Contact & Focus</div>
+      <div class="contact-name">AIRYOLK NIG LTD</div>
+      <div class="contact-role">HSE</div>
+      <div class="contact-details">
+        <div>Contact no.: +234-8108515071, +234-8035300183</div>
+        <div>service@airyolk.com</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">HSE Professional</span>
+        <span class="tag">Safety Culture Promoter</span>
+        <span class="tag">Zero Harm | Zero Impact</span>
+        <span class="tag">Committed to Safety Excellence</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
